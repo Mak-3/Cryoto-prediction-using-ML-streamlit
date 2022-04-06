@@ -4,7 +4,6 @@ import pandas as pd
 import yfinance as yf
 import matplotlib.pyplot as plt
 import pandas_datareader as data
-import streamlit.components.v1 as components
 import fbprophet
 from fbprophet import Prophet
 from datetime import date
