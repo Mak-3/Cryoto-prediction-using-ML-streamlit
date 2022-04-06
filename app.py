@@ -1,3 +1,4 @@
+# pip install pandas numpy matplotlib streamlit pystan fbprophet cryptocmd plotly
 import streamlit as st
 import pandas as pd
 import yfinance as yf
