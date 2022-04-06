@@ -9,7 +9,7 @@ from fbprophet import Prophet
 from datetime import date
 from fbprophet.plot import plot_plotly
 from plotly import graph_objs as go
-from keras.models import load_model
+#from keras.models import load_model
 from PIL import Image
 img=Image.open('logo.jpeg')
 st.set_page_config(page_title='predict crypto price',page_icon=img)
