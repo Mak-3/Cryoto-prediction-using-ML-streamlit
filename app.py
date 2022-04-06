@@ -44,7 +44,7 @@ def org_graph():
 org_graph()
 timeline=("WEEKS","MONTHS","YEARS")
 duration=st.selectbox("ENTER THE DURATION TO PREDICT",timeline)
-N=st.number_input("ENTER NUMBER",0,10)
+N=int(st.number_input("ENTER NUMBER",0,10))
 if(duration=="WEEKS"):
     no_of_days=N*7
 if(duration=="MONTHS"):
