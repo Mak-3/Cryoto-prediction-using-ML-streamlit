@@ -2,14 +2,12 @@
 import streamlit as st
 import pandas as pd
 import yfinance as yf
-import matplotlib
 import matplotlib.pyplot as plt
-matplotlib.use('Agg')
+import matplotlib
+matplotlib.use('TKAgg')
 import pandas_datareader as data
 import fbprophet
-import json 
 import requests
-import tkinter as tk
 import PyQt5
 from fbprophet import Prophet
 from datetime import date
@@ -33,7 +31,7 @@ st.markdown(hide_menu_style,unsafe_allow_html=True)
 
 selected=option_menu(
    menu_title=None,
-   options=["Home","Time Series Analysis","Indicators","Plan my purchase"],
+   options=["Home","Time Series Analysis","Indicator","Plan my purchase"],
    icons=["house","clock-history","bar-chart-fill","currency-bitcoin"],
    menu_icon="cast",
    default_index=0,
@@ -116,42 +114,35 @@ if selected=="Time Series Analysis":
  st.subheader("july has been recorded as the all time low in the year")
 
 
-if selected=="Indicators":
+if selected=="Indicator":
  cryptos=("BTC-USD", "ETH-USD", "USDT-USD", "BNB-USD", "USDC-USD", "SOL-USD", "ADA-USD", "XRP-USD", "LUNA1-USD", "HEX-USD", "AVAX-USD", "DOT-USD", "DOGE-USD", "SHIB-USD", "MATIC-USD", "ATOM-USD", "LTC-USD")
  targetcrypto=st.selectbox("ENTER THE CRYPTO TO BE PREDICTED",cryptos)
  def load_data(ticker):
-    data=yf.download(ticker,start,today)
-    data.reset_index(inplace=True)
+    data=yf.download(ticker,start='2019-01-01')
     return data
  data_load_state=st.text("loading data...")
  data=load_data(targetcrypto)
  data_load_state.text("data loaded sucessfully....")
  data['MA20'] = data['Adj Close'].rolling(20).mean()
- data['MA50']=data['Adj Close'].rolling(50).mean()
- data=data.dropna()
- data=data[['Adj Close','MA20','MA50']]
- buy =[]
- sell =[]
- for i in range(len(data)):
-  if data.MA20.iloc[i] > data.MA50.iloc[i] \
-  and data.MA20.iloc[i-1] < data.MA50.iloc[i-1]:
-    buy.append(i)
-  elif data.MA20.iloc[i] < data.MA50.iloc[i] \
-  and data.MA20.iloc[i-1] > data.MA50.iloc[i-1]:
-    sell.append(i)
-
+ data['MA50'] = data['Adj Close'].rolling(50).mean()
+ data['MA100'] = data['Adj Close'].rolling(100).mean()
+ data = data[['Adj Close','MA20','MA50','MA100']]
+ data = data.dropna()
+ st.write(data)
  st.subheader("SMA")
- st.write("Here we make use of one of the famous indicator known as sma i.e simple moving average here the past prices are considered and the average btw the values is calculated for the peroiod of time and this process continues")
+ st.write("Here we make use of one of the famous indicator known as SMA i.e Simple Moving Average here the past prices are considered and the average btw the values is calculated for the period of time and this process continues")
 
- plt.figure(figsize=(12,5))
- plt.plot(data['Adj Close'],label= "asset price", c='blue' ,alpha=0.5)
- plt.plot(data['MA20'], label="MA20", c='k', alpha=0.9)
- plt.plot(data['MA50'], label="MA50", c='magenta', alpha=0.9)
- plt.scatter(data.iloc[buy].index,data.iloc[buy]['Adj Close'],marker='^', color='g', s=100)
- plt.scatter(data.iloc[sell].index,data.iloc[sell]['Adj Close'],marker='v', color='r', s=100)
- plt.legend()
- plt.show()
-
+ def sma_graph():
+    fig1=go.Figure()
+    fig1.add_trace(go.Scatter(x=data['MA20'].index,y=data['MA20'],name='MA20'))
+    fig1.add_trace(go.Scatter(x=data['MA50'].index,y=data['MA50'],name='MA50'))
+    fig1.add_trace(go.Scatter(x=data['MA100'].index,y=data['MA100'], name='MA100'))
+    fig1.add_trace(go.Scatter(x=data['Adj Close'].index,y=data['Adj Close'], name='Adj Close'))
+    fig1.layout.update(title_text="Moving average",xaxis_rangeslider_visible=True)
+    st.plotly_chart(fig1)
+ sma_graph()
+ st.subheader("CONCLUSION")
+ st.write("We observe that considering 20 days moving average shows relatively close result than 50 days moving average and 100 days moving average.hence if the period is less for calculating moving average the more accurate results will be drawn")
 
 if selected=="Plan my purchase":
  cryptos=("BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "ADAUSDT", "XRPUSDT", "LUNA1USDT", "HEXUSDT", "AVAXUSDT", "DOTUSDT", "DOGEUSDT", "SHIBUSDT", "MATICUSDT", "ATOMUSDT", "LTCUSDT")
