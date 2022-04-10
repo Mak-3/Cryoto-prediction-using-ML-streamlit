@@ -4,11 +4,9 @@ import pandas as pd
 import yfinance as yf
 import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use('TKAgg')
 import pandas_datareader as data
 import fbprophet
 import requests
-import PyQt5
 from fbprophet import Prophet
 from datetime import date
 from fbprophet.plot import plot_plotly
