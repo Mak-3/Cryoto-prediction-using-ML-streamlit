@@ -13,6 +13,5 @@ plotly==4.14.3
 fbprophet==0.7.1
 cryptocmd==0.6.0
 requests
-PyQt5
 streamlit-option-menu
 #tensorflow-cpu==2.4.0
