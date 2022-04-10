@@ -9,7 +9,7 @@ import pandas_datareader as data
 import fbprophet
 import json 
 import requests
-import tkinter
+import tkinter as tk
 import PyQt5
 from fbprophet import Prophet
 from datetime import date
