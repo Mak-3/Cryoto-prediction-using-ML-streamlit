@@ -2,9 +2,9 @@
 import streamlit as st
 import pandas as pd
 import yfinance as yf
-import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use('TKAgg')
+import matplotlib.pyplot as plt
+matplotlib.use('Agg')
 import pandas_datareader as data
 import fbprophet
 import json 
